@@ -1,15 +1,15 @@
-import os, shutil
-from PIL import  Image
-
-path_to_project = "D:\\server\\xamp\\htdocs\\test\\test_pres"
+import os
+import shutil
+from PIL import Image
+import  json
+path_to_project = "D:\\server\\xamp\\htdocs\\test\\test_py"
 from_slide = "template-3"
-to_slide = "testSlide"
-folder_with_images = "C:\\Users\\олександр\\Desktop\\DVA Benepali Veeva Engage VF\\"
+to_slide = "newSlide"
+folder_with_images = "C:\\Users\\олександр\\Desktop\\Presentazione PVS - approvato\\"
 
 
 def main():
     images = get_images(folder_with_images)
-    print(images)
 
     for i in range(0, len(images)):
         filename = to_slide + str(i + 1)
@@ -29,17 +29,18 @@ def main():
 
         old_image = folder_with_images+images[i]
         new_image = path_to_project+"\\app\\media\\images\\"+filename
-        print(new_image)
 
         if os.path.isdir(new_image):
             copy_file(old_image, new_image+"\\bg.jpg")
         else:
             os.mkdir(new_image)
             copy_file(old_image, new_image+"\\bg.jpg")
-        resize(new_image+"\\bg.jpg", (500, 500))
+        resize(new_image+"\\bg.jpg")
+        set_css(new_css, new_image+"\\bg.jpg")
+        set_structure(path_to_project+"\\structure.json", filename, 'core')
 
 
-def resize(image, size):
+def resize(image):
     o_image = Image.open(image)
     i_width = o_image.width
     i_height = o_image.height
@@ -48,21 +49,20 @@ def resize(image, size):
     full_height = 1536
     koeficient = full_width/i_width
     new_width = 2048
-    new_height = int(i_height*koeficient)
+    new_height = int(i_height*koeficient+0.5)
 
-    if new_height>full_height:
+    if new_height > full_height:
         koeficient = full_height/i_height
         new_height = 1536
-        new_width = int(i_width*koeficient)
+        new_width = int(i_width*koeficient+0.5)
+        print(new_width)
 
     size = (new_width, new_height)
-    print(size)
     r = o_image.resize(size)
     r.save(image)
 
 
 def copy_file(old_file, new_file):
-
     if os.path.isdir(path_to_project):
         shutil.copy(old_file, new_file)
 
@@ -79,31 +79,49 @@ def get_images(path):
 
 
 def set_css(file_css, image):
-    images = get_images(folder_with_images)
-    width = 100
-    height = 100
+    o_image = Image.open(image)
+    width = int(o_image.width/2)
+    height = int(o_image.height/2)
 
     css = '''
-        #bg {
+        #bg {0}
            position: absolute;
            top: 0;
            left: 0;
-           width: 100px;
-           height: 100px;
+           width: {1}px;
+           height: {2}px;
            transform: matrix(0, 1, 1, 0, 0, 0); 
-        }
+        {3}
     '''
 
-    os.path.s
+    css = css.format('{', width, height, '}')
 
     fd = os.open(file_css, os.O_RDWR)
 
     if os.path.isfile(file_css):
-        print(file_css)
         res = os.write(fd, str.encode(css))
-        print(res)
     os.close(fd)
+
+
+def set_structure(file, slide, chapter):
+
+    if os.path.isfile(file):
+        with open(file, 'r') as structure:
+            data = json.load(structure)
+            new_slide = {
+                "name": slide,
+                "template": slide+".html"
+            }
+            data["slides"][slide] = new_slide
+            data["chapters"][chapter]["content"].append(slide)
+
+        with open(file, 'w') as structure:
+            json.dump(data, structure)
+
+
+def set_model(file, slide):
 
 
 if __name__ == '__main__':
     main()
+
