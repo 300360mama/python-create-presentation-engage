@@ -38,6 +38,8 @@ def main():
         resize(new_image+"\\bg.jpg")
         set_css(new_css, new_image+"\\bg.jpg")
         set_structure(path_to_project+"\\structure.json", filename, 'core')
+        set_model(new_model, filename)
+        set_html(new_html)
 
 
 def resize(image):
@@ -82,6 +84,8 @@ def set_css(file_css, image):
     o_image = Image.open(image)
     width = int(o_image.width/2)
     height = int(o_image.height/2)
+    left = int(1024 - width)/2 - 84
+    top = int(768 - height)/2 - 179
 
     css = '''
         #bg {0}
@@ -90,11 +94,11 @@ def set_css(file_css, image):
            left: 0;
            width: {1}px;
            height: {2}px;
-           transform: matrix(0, 1, 1, 0, 0, 0); 
-        {3}
+           transform: matrix(1, 0, 0, 1, {3}, {4}); 
+        {5}
     '''
 
-    css = css.format('{', width, height, '}')
+    css = css.format('{', width, height, left, top, '}')
 
     fd = os.open(file_css, os.O_RDWR)
 
@@ -120,6 +124,31 @@ def set_structure(file, slide, chapter):
 
 
 def set_model(file, slide):
+    with open(file, 'r') as model:
+        data = json.load(model)
+        new_model = {
+                "src": "media/images/"+slide+"/bg.jpg",
+                "size": "100% 100%",
+                "position": "center center"
+        }
+        data["bg"] = new_model
+
+    with open(file, 'w') as model:
+        json.dump(data, model)
+
+
+def set_html(file):
+    with open(file) as html:
+        data = html.read()
+
+        slide = os.path.basename(file)
+        slide = os.path.splitext(slide)
+        new_css = "<link rel=\"stylesheet\" href=\"styles/"+slide[0]+".css\">"
+        str1 = data.replace("<link rel=\"stylesheet\" href=\"styles/template-3.css\">", new_css)
+        str2 = str1.replace("<co-grid-container fixed id=\"contentArea\" class=\"content-area back-cont-bio\" user-label=\"Content area\">", "<co-grid-container fixed id=\"contentArea\" class=\"content-area back-cont-bio\" user-label=\"Content area\"><co-image id=\"bg\" model=\"m.bg\" user-label=\"Background\"></co-image>")
+
+    with open(file, "w") as html:
+        html.write(str2)
 
 
 if __name__ == '__main__':
