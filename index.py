@@ -1,11 +1,14 @@
 import os
 import shutil
 from PIL import Image
-import  json
-path_to_project = "D:\\server\\xamp\\htdocs\\test\\test_py"
+import json
+from natsort import  natsorted, ns
+
+
+path_to_project = "D:\\server\\xamp\\htdocs\\viseven\\Test\\asdas"
 from_slide = "template-3"
-to_slide = "newSlide"
-folder_with_images = "C:\\Users\\олександр\\Desktop\\Presentazione PVS - approvato\\"
+to_slide = "testSlide"
+folder_with_images = "C:\\Users\\олександр\\Desktop\\sadfa\\"
 
 
 def main():
@@ -77,6 +80,7 @@ def get_images(path):
         if os.path.splitext(image)[1] in ext:
             res.append(image)
 
+    natsorted(res, key=lambda y: y.lower())
     return res
 
 
@@ -114,6 +118,7 @@ def set_structure(file, slide, chapter):
             data = json.load(structure)
             new_slide = {
                 "name": slide,
+                "title": slide,
                 "template": slide+".html"
             }
             data["slides"][slide] = new_slide
