@@ -43,7 +43,6 @@ def main():
             copy_file(old_image, new_image)
 
         resize(new_image)
-        #optimize_image(new_image)
         set_css(new_css, new_image)
         set_structure(path_to_project+"\\structure.json", filename, 'core')
         set_model(new_model, filename, "bg."+get_extension(images[i]))
@@ -69,6 +68,9 @@ def resize(image):
 
     size = (new_width, new_height)
     extension = get_extension(image)
+
+    if extension == "jpg":
+        extension = "jpeg"
     print(extension)
     r = o_image.resize(size)
     r.save(image, extension)
@@ -173,7 +175,7 @@ def clean_localization(file):
 
 
 def get_extension(image):
-    extension = os.path.splitext(image)[1][1:]
+    extension = os.path.splitext(image)[1][1:].lower()
     return extension
 
 
