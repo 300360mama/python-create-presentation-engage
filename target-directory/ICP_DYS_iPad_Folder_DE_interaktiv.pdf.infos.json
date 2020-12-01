@@ -1,0 +1,44 @@
+{
+  "source": {
+    "type": "file",
+    "location": "C:\\Users\\\u043e\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\\Desktop\\sdfsa\\ICP_DYS_iPad_Folder_DE_interaktiv.pdf",
+    "filename": "ICP_DYS_iPad_Folder_DE_interaktiv.pdf"
+  },
+  "metadata": {
+    "CreationDate": "D:20200715103455+02'00'",
+    "Creator": "Adobe InDesign 15.1 (Macintosh)",
+    "ModDate": "D:20200715103510+02'00'",
+    "Producer": "Adobe PDF Library 15.0",
+    "Trapped": "False",
+    "xap": {
+      "CreateDate": "2020-07-15T10:34:55+02:00",
+      "MetadataDate": "2020-07-15T10:35:10+02:00",
+      "ModifyDate": "2020-07-15T10:35:10+02:00",
+      "CreatorTool": "Adobe InDesign 15.1 (Macintosh)"
+    },
+    "xapmm": {
+      "InstanceID": "uuid:4da00e2e-d6a1-a34f-b779-d30d73b81496",
+      "OriginalDocumentID": "xmp.did:a26d1527-3475-43b3-a7cb-6044b1a6b6d5",
+      "DocumentID": "xmp.id:a179b020-5870-4143-b573-b208c69d0d29",
+      "RenditionClass": "proof:pdf",
+      "History": [
+        "\n                  "
+      ],
+      "DerivedFrom": "\n            "
+    },
+    "dc": {
+      "format": "application/pdf"
+    },
+    "pdf": {
+      "Producer": "Adobe PDF Library 15.0",
+      "Trapped": "False"
+    },
+    "Pages": 79
+  },
+  "references": {
+    "url": [
+      "http://emedicine.medscape.com/",
+      "https://www.cdc.gov/ncbddd/cp/facts.html"
+    ]
+  }
+}

@@ -2,9 +2,9 @@ import os
 import shutil
 from PIL import Image
 import json
-from natsort import natsorted, ns
+from natsort import natsorted
 from config import config
-import tinify
+# import tinify
 
 
 path_to_project = config["path_to_project"]
@@ -179,10 +179,10 @@ def get_extension(image):
     return extension
 
 
-def optimize_image(image):
-    tinify.key = config["api_key"]
-    source = tinify.from_file(image)
-    source.to_file(image)
+# def optimize_image(image):
+#     tinify.key = config["api_key"]
+#     source = tinify.from_file(image)
+#     source.to_file(image)
 
 
 if __name__ == '__main__':
